@@ -7,6 +7,7 @@ import ZoomModal from "../ZoomModal";
 
 const GalleryContainer = styled.div`
   display: flex;
+  gap: 24px;
 `;
 
 const FluidSection = styled.section`
@@ -17,13 +18,13 @@ const ImagesContainer = styled.section`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 12px;
 `;
 
-const Gallery = ({ photos = [], onPhotoSelected, onFavorite }) => {
+const Gallery = ({ photos = [], setTag, onPhotoSelected, onFavorite }) => {
   return (
     <>
-      <Tags />
+      <Tags setTag={setTag} />
       <GalleryContainer>
         <FluidSection>
           <Title>Browse through our gallery </Title>

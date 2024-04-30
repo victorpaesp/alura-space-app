@@ -29,12 +29,20 @@ const Tag = styled.button`
   }
 `;
 
-const Tags = () => {
+const Div = styled.div`
+  display: flex;
+  gap: 24px;
+  justify-content: end;
+`;
+
+const Tags = ({ setTag }) => {
   return (
     <TagsContainer>
-      <TagTitle>Busque por tags:</TagTitle>
+      <TagTitle>Search by tags:</TagTitle>
       {tags.map((tag) => (
-        <Tag key={tag.id}>{tag.title}</Tag>
+        <Tag key={tag.id} onClick={() => setTag(tag.tag)}>
+          {tag.title}
+        </Tag>
       ))}
     </TagsContainer>
   );

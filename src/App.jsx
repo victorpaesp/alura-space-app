@@ -6,7 +6,7 @@ import Banner from "./components/Banner";
 import bannerBackground from "./assets/banner.png";
 import Gallery from "./components/Gallery";
 import photos from "./photos.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ZoomModal from "./components/ZoomModal";
 
 const GradientBackground = styled.div`
@@ -18,7 +18,6 @@ const GradientBackground = styled.div`
   );
   width: 100%;
   min-height: 100vh;
-  margin: 0;
 `;
 
 const AppContainer = styled.div`
@@ -41,12 +40,25 @@ const GalleryContent = styled.section`
 const App = () => {
   const [galleryPhotos, setGalleryPhotos] = useState(photos);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [filter, setFilter] = useState("");
+  const [tag, setTag] = useState(0);
+  const [zoomedPhoto, setZoomedPhoto] = useState(null);
+
+  useEffect(() => {
+    const filteredPhotos = photos.filter((photo) => {
+      const filterByTag = !tag || photo.tagId === tag;
+      const filterByTitle =
+        !filter || photo.title.toLowerCase().includes(filter.toLowerCase());
+      return filterByTag && filterByTitle;
+    });
+    setGalleryPhotos(filteredPhotos);
+  }, [filter, tag]);
 
   const onFavorite = (photo) => {
-    if (photo.id === selectedPhoto?.id) {
-      setSelectedPhoto({
-        ...selectedPhoto,
-        favorite: !selectedPhoto.favorite,
+    if (photo.id === zoomedPhoto?.id) {
+      setZoomedPhoto({
+        ...zoomedPhoto,
+        favorite: !zoomedPhoto.favorite,
       });
     }
     setGalleryPhotos(
@@ -65,7 +77,7 @@ const App = () => {
     <GradientBackground>
       <GlobalStyles />
       <AppContainer>
-        <Header />
+        <Header filter={filter} setFilter={setFilter} />
         <MainContainer>
           <AsideBar />
           <GalleryContent>
@@ -74,16 +86,17 @@ const App = () => {
               backgroundImage={bannerBackground}
             />
             <Gallery
-              onPhotoSelected={(photo) => setSelectedPhoto(photo)}
+              onPhotoSelected={(photo) => setZoomedPhoto(photo)}
               onFavorite={onFavorite}
               photos={galleryPhotos}
+              setTag={setTag}
             />
           </GalleryContent>
         </MainContainer>
       </AppContainer>
       <ZoomModal
-        photo={selectedPhoto}
-        onClose={() => setSelectedPhoto(null)}
+        photo={zoomedPhoto}
+        onClose={() => setZoomedPhoto(null)}
         onFavorite={onFavorite}
       />
     </GradientBackground>

@@ -40,7 +40,7 @@ const Footer = styled.footer`
 const Image = ({ photo, expanded = false, onZoom, onFavorite }) => {
   // const favoriteIcon = photo.favorita ? '/icons/favorite-active.png' : '/icons/favorite.png'
   let favoriteIcon = "/icons/favorite.png";
-  if (photo.favorita) {
+  if (photo.favorite) {
     favoriteIcon = "/icons/favorite-active.png";
   }
 

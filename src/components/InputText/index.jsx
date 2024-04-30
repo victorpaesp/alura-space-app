@@ -29,10 +29,16 @@ const MagnifierIcon = styled.img`
   height: 38px;
 `;
 
-const InputText = (props) => {
+const InputText = ({ setFilter }) => {
   return (
     <StyledContainer>
-      <StyledInputText placeholder="Search..." {...props} />
+      <StyledInputText
+        placeholder="Search..."
+        onChange={(e) => {
+          setFilter(e.target.value);
+        }}
+        type="text"
+      />
       <MagnifierIcon src={search} alt="Magnifier Icon" />
     </StyledContainer>
   );
